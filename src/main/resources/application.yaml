@@ -1,15 +1,15 @@
 server:
-  port: 8081
+  port: ${PORT:8081}
 spring:
   application:
     name: orders
 
   ## Database Configuration
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3307/orders}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/orders}
     driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
-    username: ${DB_USER:root}
-    password: ${DB_PASSWORD:admin}
+    username: ${SPRING_DATASOURCE_USERNAME:orders_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:orders_pass}
   jpa:
     show-sql: true
     hibernate:
