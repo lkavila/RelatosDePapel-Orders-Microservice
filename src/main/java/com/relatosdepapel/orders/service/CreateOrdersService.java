@@ -55,6 +55,7 @@ public class CreateOrdersService {
                 .total(totalAmount)
                 .ownerId(1) // Se debe obtener del contexto de seguridad
                 .orderItems(supplyOrderItemMap.values().stream().toList())
+                .updatedAt(LocalDateTime.now())
                 .build();
 
         supplyOrderItemMap.values().forEach(item -> item.setOrder(order));

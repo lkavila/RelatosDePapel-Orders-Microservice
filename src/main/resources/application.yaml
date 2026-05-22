@@ -8,12 +8,12 @@ spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/orders}
     driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
-    username: ${SPRING_DATASOURCE_USERNAME:orders_user}
-    password: ${SPRING_DATASOURCE_PASSWORD:orders_pass}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:mysql}
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     database-platform: org.hibernate.dialect.MySQLDialect
     properties:
       hibernate:
@@ -37,4 +37,4 @@ eureka:
 
 ## Microservices Configuration
 catalog:
-  url: ${CATALOG_URL:http://orders/api/v1}
+  url: ${CATALOG_URL:http://catalog/api/v1}

@@ -43,9 +43,6 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
-    @Column(name="created_at", nullable = false, updatable = false)
-    @CreatedDate
-    private LocalDateTime createdAt;
 
     @Column(name="updated_at", nullable = false)
     @LastModifiedDate

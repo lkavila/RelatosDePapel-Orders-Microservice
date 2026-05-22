@@ -13,7 +13,6 @@ CREATE TABLE orders (
                         total DECIMAL(10,2) NOT NULL,
                         comment TEXT,
                         owner_id INTEGER NOT NULL,
-                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                         PRIMARY KEY (id)
 );
