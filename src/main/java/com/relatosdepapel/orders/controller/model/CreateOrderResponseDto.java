@@ -22,4 +22,6 @@ public class CreateOrderResponseDto implements Serializable {
 
     @JsonProperty("id")
     public Integer id;
+    @JsonProperty("ownerId")
+    public Integer ownerId;
 }

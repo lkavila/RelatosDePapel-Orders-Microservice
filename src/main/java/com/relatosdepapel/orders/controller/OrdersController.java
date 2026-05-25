@@ -20,11 +20,15 @@ public class OrdersController {
     private final CreateOrdersService createOrdersService;
     private final GetOrdersService getOrdersService;
 
+
     @GetMapping("orders")
     public ResponseEntity<GetOrdersResponseDto> getRecentOrders() {
         return ResponseEntity.ok(getOrdersService.getRecentOrders());
     }
-
+    @PostMapping("orders/{ownerId}")
+    public ResponseEntity<GetOrdersResponseDto> getOwnerId(@PathVariable Long ownerId) {
+        return ResponseEntity.ok(getOrdersService.getOrderByOwnerId(ownerId.intValue()));
+    }
     @PostMapping("orders")
     public ResponseEntity<CreateOrderResponseDto> createOrder(@RequestBody CreateOrderRequestDto request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(createOrdersService.createOrder(request));

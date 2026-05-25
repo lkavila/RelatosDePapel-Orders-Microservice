@@ -20,9 +20,27 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GetOrdersResponseDto implements Serializable {
 
+
     @Serial
     private final static long serialVersionUID = -8949888676747079614L;
 
     @JsonProperty("recentOrders")
     public List<RecentOrder> recentOrders;
+
+    @JsonProperty("id")
+    public Long id;
+    @JsonProperty("orderDate")
+    public String  order_date;
+    @JsonProperty("total")
+    public Long total;
+    @JsonProperty("comment")
+    public String comment;
+    @JsonProperty("ownerId")
+    public Long ownerId;
+    @JsonProperty("updatedAt")
+    public String  updated_at;
+
+
+
+
 }
