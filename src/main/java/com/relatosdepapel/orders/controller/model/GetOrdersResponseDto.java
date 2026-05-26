@@ -22,7 +22,6 @@ public class GetOrdersResponseDto implements Serializable {
 
     @Serial
     private final static long serialVersionUID = -8949888676747079614L;
-
     @JsonProperty("recentOrders")
     public List<RecentOrder> recentOrders;
 }
