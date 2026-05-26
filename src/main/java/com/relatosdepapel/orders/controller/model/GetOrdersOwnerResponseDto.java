@@ -1,5 +1,4 @@
 package com.relatosdepapel.orders.controller.model;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
@@ -13,15 +12,20 @@ import lombok.*;
 @JsonPropertyOrder({
         "recentOrders"
 })
+
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetOrdersResponseDto implements Serializable {
+public class GetOrdersOwnerResponseDto implements Serializable {
+    @JsonProperty("ownerId")
+    public Long ownerId;
+    public List<OrderDetailsDto> ordersDetails;
+    private int currentPage;
+    private int totalPages;
+    private long totalItems;
+    private int pageSize;
 
-    @Serial
-    private final static long serialVersionUID = -8949888676747079614L;
-    @JsonProperty("recentOrders")
-    public List<RecentOrder> recentOrders;
 }
+

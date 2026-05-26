@@ -1,6 +1,7 @@
 package com.relatosdepapel.orders.service;
 
 import com.relatosdepapel.orders.controller.model.GetOrdersResponseDto;
+import com.relatosdepapel.orders.controller.model.GetOrdersOwnerResponseDto;
 import com.relatosdepapel.orders.controller.model.PurchasedItem;
 import com.relatosdepapel.orders.controller.model.RecentOrder;
 import com.relatosdepapel.orders.exception.InternalErrorException;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 
 @Service
@@ -33,7 +35,7 @@ public class GetOrdersService {
     }
 
     @Transactional(readOnly = true)
-    public GetOrdersResponseDto getOrderByOwnerId(Integer ownerId) {
+    public GetOrdersOwnerResponseDto getOrderByOwnerId(Integer ownerId) {
         List<Order> recentOrders = orderJpaRepository.findByOwnerIdOrderByOrderDateDesc(ownerId);
 
         if (recentOrders.isEmpty()) {
@@ -48,7 +50,7 @@ public class GetOrdersService {
                         .updated_at(o.getUpdatedAt().toString())
                         .build())
                 .collect(Collectors.toList());
-        return GetOrdersResponseDto.builder()
+        return GetOrdersOwnerResponseDto.builder()
                 .ownerId(Long.valueOf(ownerId))
                 .ordersDetails(orderDetailsList)
                 .build();
