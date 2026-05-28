@@ -55,6 +55,8 @@ public class GetOrdersService {
                 .collect(Collectors.toList());
         return GetOrdersOwnerResponseDto.builder()
                 .ownerId(Long.valueOf(ownerId))
+                .pageSize(pageSize)
+                .currentPage(page)
                 .ordersDetails(orderDetailsList)
                 .build();
     }
