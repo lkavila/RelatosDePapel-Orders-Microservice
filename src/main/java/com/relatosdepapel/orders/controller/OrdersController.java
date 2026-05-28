@@ -4,11 +4,9 @@ import com.relatosdepapel.orders.controller.model.CreateOrderRequestDto;
 import com.relatosdepapel.orders.controller.model.CreateOrderResponseDto;
 import com.relatosdepapel.orders.controller.model.GetOrdersResponseDto;
 import com.relatosdepapel.orders.controller.model.GetOrdersOwnerResponseDto;
-import com.relatosdepapel.orders.controller.model.UpdateOrderItemStatusDto;
 import com.relatosdepapel.orders.service.CreateOrdersService;
 import com.relatosdepapel.orders.service.GetOrdersService;
 import com.relatosdepapel.orders.service.DeleteOrdersService;
-import com.relatosdepapel.orders.service.UpdateOrderItemStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/")
 @RequiredArgsConstructor
-
 public class OrdersController {
 
     private final CreateOrdersService createOrdersService;
