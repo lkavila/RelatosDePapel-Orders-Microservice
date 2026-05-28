@@ -1,24 +1,21 @@
 package com.relatosdepapel.orders.controller;
 
-import com.relatosdepapel.orders.controller.model.UpdateOrderItemStatusDto;
-import com.relatosdepapel.orders.service.UpdateOrderItemStatus;
+import com.relatosdepapel.orders.controller.model.UpdateOrderItemDto;
+import com.relatosdepapel.orders.service.PatchOrderItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/")
 public class OrderItemController {
 
-    private final UpdateOrderItemStatus updateOrderItemStatus;
+    private final PatchOrderItem patchOrderItem;
 
-    @PatchMapping("order-items")
-    public ResponseEntity<UpdateOrderItemStatusDto>  updateOrderItemStatus(@RequestBody UpdateOrderItemStatusDto updateOrderItemStatusDto) {
-        updateOrderItemStatus.updateOrderItemStatus(updateOrderItemStatusDto.id, updateOrderItemStatusDto.status);
-        return ResponseEntity.ok(updateOrderItemStatusDto);
+    @PatchMapping("order-items/{id}")
+    public ResponseEntity<UpdateOrderItemDto>  patchOrderItem(@PathVariable Integer id, @RequestBody UpdateOrderItemDto updateOrderItemStatusDto) {
+        UpdateOrderItemDto result = patchOrderItem.patchOrderItem(id, updateOrderItemStatusDto);
+        return ResponseEntity.ok(result);
     }
 }
