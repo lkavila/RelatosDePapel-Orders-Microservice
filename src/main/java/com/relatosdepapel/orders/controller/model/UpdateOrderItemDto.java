@@ -7,10 +7,13 @@ import com.relatosdepapel.orders.repository.model.OrderStatus;
 import lombok.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
+        "quantity",
+        "subTotal",
         "status"
 })
 @Getter
@@ -18,12 +21,18 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class UpdateOrderItemStatusDto implements Serializable {
+public class UpdateOrderItemDto implements Serializable {
 
     private final static long serialVersionUID = 7686450847709803303L;
 
     @JsonProperty("id")
     public Integer id;
+
+    @JsonProperty("quantity")
+    private Integer quantity;
+
+    @JsonProperty("subTotal")
+    private BigDecimal subTotal;
 
     @JsonProperty("status")
     public OrderStatus status;
