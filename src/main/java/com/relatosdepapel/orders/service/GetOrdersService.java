@@ -16,6 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
+import com.relatosdepapel.orders.repository.OrderRepository;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 
@@ -23,7 +27,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GetOrdersService {
 
-    private final OrderJpaRepository orderJpaRepository;
+    private final OrderRepository orderRepository;
     private final CatalogFacade catalogFacade;
 
     @Transactional(readOnly = true)
@@ -33,6 +37,29 @@ public class GetOrdersService {
                 .recentOrders(recentOrders.stream().map(this::getRecentOrder).toList())
                 .build();
     }
+
+
+
+    public GetOrdersResponseDto getOrders(
+            Integer ownerId,
+            LocalDateTime orderDate,
+            BigDecimal minTotal
+    ) {
+
+        List<Order> orders = orderRepository.getOrders(
+                ownerId,
+                orderDate,
+                minTotal
+        );
+
+        return new GetOrdersResponseDto(
+                orders.stream()
+                        .map(this::mapToRecentOrder)
+                        .toList()
+        );
+    }
+
+
 
     @Transactional(readOnly = true)
     public GetOrdersOwnerResponseDto getOrderByOwnerId(Integer ownerId) {

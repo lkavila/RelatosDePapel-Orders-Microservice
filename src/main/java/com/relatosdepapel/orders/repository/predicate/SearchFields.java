@@ -1,15 +1,8 @@
 package com.relatosdepapel.orders.repository.predicate;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+public class SearchFields {
 
-@Getter
-@RequiredArgsConstructor
-public enum SearchFields {
-
-    OWNER_ID("ownerId"),
-    TOTAL("total"),
-    ORDER_DATE("orderDate");
-
-    private final String fieldName;
+    public static final String OWNER_ID = "ownerId";
+    public static final String TOTAL = "total";
+    public static final String ORDER_DATE = "orderDate";
 }
