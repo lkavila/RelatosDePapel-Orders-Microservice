@@ -232,3 +232,4 @@ Variables de entorno configurables (`application.yml`):
 | `EUREKA_URL`              | `http://localhost:8761/eureka`       | URL del servidor Eureka                      |
 | `SUPPLIES_CATALOGUE_URL`  | `http://orders/api/v1`               | URL base del microservicio de catálogo (resuelta vía Eureka) |
 
+
