@@ -27,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GetOrdersService {
 
+    private final OrderJpaRepository orderJpaRepository;
     private final OrderRepository orderRepository;
     private final CatalogFacade catalogFacade;
 
@@ -52,11 +53,14 @@ public class GetOrdersService {
                 minTotal
         );
 
-        return new GetOrdersResponseDto(
-                orders.stream()
-                        .map(this::mapToRecentOrder)
-                        .toList()
-        );
+        List<RecentOrder> recentOrders = orders.stream()
+                .map(this::getRecentOrder)
+                .toList();
+
+        return GetOrdersResponseDto.builder()
+                .recentOrders(recentOrders)
+                .build();
+
     }
 
 

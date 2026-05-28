@@ -1,4 +1,4 @@
-package com.relatosdepapel.catalog.repository.predicate;
+package com.relatosdepapel.orders.repository.predicate;
 
 public enum SearchOperation {
     GREATER_THAN,

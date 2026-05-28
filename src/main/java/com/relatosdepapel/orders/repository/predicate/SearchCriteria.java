@@ -1,5 +1,5 @@
-package com.relatosdepapel.catalog.repository.predicate;
-
+package com.relatosdepapel.orders.repository.predicate;
+import com.relatosdepapel.orders.repository.model.Order;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SearchCriteria<Supply> implements Specification<Supply> {
+public class SearchCriteria<Order> implements Specification<Order> {
 
     private final List<SearchStatement> list = new LinkedList<>();
 
@@ -18,7 +18,7 @@ public class SearchCriteria<Supply> implements Specification<Supply> {
     }
 
     @Override
-    public Predicate toPredicate(Root<Supply> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+    public Predicate toPredicate(Root<Order> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
         List<Predicate> predicates = new LinkedList<>();
         for (SearchStatement criteria : list) {
