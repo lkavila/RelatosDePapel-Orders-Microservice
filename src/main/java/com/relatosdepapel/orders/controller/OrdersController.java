@@ -1,12 +1,10 @@
 package com.relatosdepapel.orders.controller;
 
-import com.relatosdepapel.orders.controller.model.CreateOrderRequestDto;
-import com.relatosdepapel.orders.controller.model.CreateOrderResponseDto;
-import com.relatosdepapel.orders.controller.model.GetOrdersResponseDto;
-import com.relatosdepapel.orders.controller.model.GetOrdersOwnerResponseDto;
+import com.relatosdepapel.orders.controller.model.*;
 import com.relatosdepapel.orders.service.CreateOrdersService;
 import com.relatosdepapel.orders.service.GetOrdersService;
 import com.relatosdepapel.orders.service.DeleteOrdersService;
+import com.relatosdepapel.orders.service.PatchOrderItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +21,7 @@ public class OrdersController {
     private final CreateOrdersService createOrdersService;
     private final GetOrdersService getOrdersService;
     private final DeleteOrdersService deleteOrdersService;
+    private final PatchOrderItem patchOrderItem;
 
 
     @GetMapping("orders")
@@ -67,4 +66,9 @@ public class OrdersController {
         deleteOrdersService.deleteOrderByOwnerId(ownerId);
         return ResponseEntity.noContent().build();
     }
+    @PatchMapping("orders/{id}")
+    public ResponseEntity<Boolean> patchOrder(@PathVariable Integer id, @RequestBody UpdateOrderDto orderDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(patchOrderItem.updateOrderItemStatus(id, orderDto.getStatus()));
+    }
+
 }

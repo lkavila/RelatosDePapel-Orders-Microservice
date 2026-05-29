@@ -3,8 +3,10 @@ package com.relatosdepapel.orders.service;
 import com.relatosdepapel.orders.controller.model.UpdateOrderItemDto;
 import com.relatosdepapel.orders.repository.OrderItemJpaRepository;
 import com.relatosdepapel.orders.repository.model.OrderItem;
+import com.relatosdepapel.orders.repository.model.OrderStatus;
 import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,5 +47,8 @@ public class PatchOrderItem {
                 .quantity(dto.getQuantity())
                 .subTotal(dto.getSubTotal())
                 .build();
+    }
+    public Boolean updateOrderItemStatus(Integer orderId, OrderStatus status) {
+        return orderItemJpaRepository.updateStatusByOrderId(orderId, status.name())>0;
     }
 }
