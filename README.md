@@ -38,6 +38,84 @@ Todas las rutas locales tienen el prefijo base `/api/v1/` (si accedes a través 
 
 ###Nota para el Caso de Delete, se usaría en Casos Excepcionales, ya que a nivel funcional no se deberían borrar ordénes
 
+
+### 1.1 Consulta de Órdenes con Filtros Dinámicos
+
+Se implementó un sistema de filtros dinámicos para la consulta de órdenes utilizando Spring Data JPA Specifications.
+
+Este endpoint permite realizar búsquedas flexibles mediante `queryParams`, permitiendo combinar múltiples filtros dentro de una misma consulta.
+
+| Método | Endpoint | Descripción |
+|---|---|---|
+| **GET** | `/api/v1/orders` | Obtener órdenes filtradas dinámicamente mediante parámetros opcionales |
+
+#### Query Params soportados
+
+| Parámetro | Tipo | Descripción |
+|---|---|---|
+| `ownerId` | Integer | Filtra órdenes pertenecientes a un usuario específico |
+| `orderDate` | LocalDateTime | Filtra órdenes por fecha |
+| `minTotal` | BigDecimal | Filtra órdenes cuyo total sea mayor o igual al valor indicado |
+| `page` | Integer | Número de página |
+| `pageSize` | Integer | Tamaño de página |
+
+---
+
+### Ejemplo de consulta
+
+```json
+{
+  "targetMethod": "GET",
+  "body": {},
+  "queryParams": {
+    "ownerId": ["1"],
+    "minTotal": ["32"],
+    "page": ["0"],
+    "pageSize": ["10"]
+  }
+}
+````
+
+---
+
+### Componentes implementados
+
+| Archivo                   | Responsabilidad                                                 |
+| ------------------------- | --------------------------------------------------------------- |
+| `OrdersController.java`   | Recepción de filtros mediante `@RequestParam`                   |
+| `GetOrdersService.java`   | Procesamiento de lógica de consulta                             |
+| `OrderRepository.java`    | Construcción dinámica de criterios                              |
+| `SearchCriteria.java`     | Implementación de `Specification<Order>`                        |
+| `SearchStatement.java`    | Representación de condiciones dinámicas                         |
+| `SearchOperation.java`    | Operaciones de comparación                                      |
+| `SearchFields.java`       | Centralización de nombres de campos filtrables                  |
+| `OrderJpaRepository.java` | Ejecución de Specifications mediante `JpaSpecificationExecutor` |
+
+---
+
+### Operaciones soportadas
+
+| Operación            | Descripción                       |
+| -------------------- | --------------------------------- |
+| `EQUAL`              | Comparación exacta                |
+| `GREATER_THAN_EQUAL` | Comparación mayor o igual         |
+| `MATCH`              | Coincidencias parciales tipo LIKE |
+
+---
+
+### Beneficios de la implementación
+
+* Permite combinar múltiples filtros dinámicamente.
+* Evita la creación de múltiples endpoints específicos.
+* Mantiene una arquitectura escalable y reutilizable.
+* Facilita futuras ampliaciones de búsqueda.
+* Compatible con paginación utilizando Spring Data JPA.
+
+---
+
+
+
+
 ### 2. Gestión de Items del Pedido (Order Items)
 
 | Método | Endpoint | Descripción | Request Body | Response |
