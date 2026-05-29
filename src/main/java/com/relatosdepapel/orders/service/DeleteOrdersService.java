@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,19 +17,18 @@ public class DeleteOrdersService {
     private final OrderJpaRepository orderRepository;
 
     @Transactional
-    public void deleteOrderByOwnerId(Long ownerId) {
+    public void deleteOrderById(Long Id) {
 
-        List<Order> orders = orderRepository
-                .findByOwnerIdOrderByOrderDateDesc(ownerId.intValue());
+        Optional<Order> orders = orderRepository
+                .findById(Id.intValue());
 
         if (orders.isEmpty()) {
             throw new OrderNotFoundException(
-                    "Order not found with ownerId: " + ownerId
+                    "Order not found with Id: " + Id
             );
         }
-
         // Obtener la orden más reciente
-        Order order = orders.get(0);
+        Order order = orders.get();
 
         // Eliminar la orden
         orderRepository.delete(order);

@@ -29,12 +29,12 @@ Todas las rutas locales tienen el prefijo base `/api/v1/` (si accedes a través 
 
 ### 1. Gestión de Pedidos (Orders)
 
-| Método     | Endpoint                        | Descripción                                           | Request Body                                                 | Response                                                |
-|:-----------|:--------------------------------|:------------------------------------------------------|:-------------------------------------------------------------|:--------------------------------------------------------|
-| **GET**    | `/api/v1/orders`                | Obtener listado de pedidos recientes.                 | Ninguno                                                      | `GetOrdersResponseDto`                                  |
-| **POST**   | `/api/v1/orders`                | Crear y registrar una nueva orden de compra.          | `CreateOrderRequestDto` (JSON con libros y cantidades)       | `CreateOrderResponseDto` (HTTP 201 Created)             |
-| **POST**   | `/api/v1/orders/user/{ownerId}` | Obtener listado de pedidos asociados a un id Cliente. | Ninguno(JSON con "targetMethod":"GET", paginas y paginación) | `CreateOrderResGetOrdersOwnerResponseDto` (HTTP 200 Ok) |
-| **DELETE** | `/api/v1/orders/user/{ownerId}` | Borra las ordenes asociadas un  id Cliente.           | Ninguno (JSON con "targetMethod":"DELETE"                    | Ninguno (HTTP 204 Ok)                                   |
+| Método     | Endpoint                        | Descripción                                             | Request Body                                                 | Response                                                |
+|:-----------|:--------------------------------|:--------------------------------------------------------|:-------------------------------------------------------------|:--------------------------------------------------------|
+| **GET**    | `/api/v1/orders`                | Obtener listado de pedidos recientes.                   | Ninguno                                                      | `GetOrdersResponseDto`                                  |
+| **POST**   | `/api/v1/orders`                | Crear y registrar una nueva orden de compra.            | `CreateOrderRequestDto` (JSON con libros y cantidades)       | `CreateOrderResponseDto` (HTTP 201 Created)             |
+| **POST**   | `/api/v1/orders/user/{ownerId}` | Obtener listado de pedidos asociados a un id Cliente.   | Ninguno(JSON con "targetMethod":"GET", paginas y paginación) | `CreateOrderResGetOrdersOwnerResponseDto` (HTTP 200 Ok) |
+| **DELETE** | `/api/v1/orders/id/{Id}`        | Borra las ordenes asociadas un  id de orden Especifica. | Ninguno (JSON con "targetMethod":"DELETE"                    | Ninguno (HTTP 204 Ok)                                   |
 
 ###Nota para el Caso de Delete, se usaría en Casos Excepcionales, ya que a nivel funcional no se deberían borrar ordénes
 
