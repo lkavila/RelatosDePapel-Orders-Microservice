@@ -6,10 +6,12 @@ import com.relatosdepapel.orders.exception.SupplyNotFoundException;
 import com.relatosdepapel.orders.facade.model.SupplyDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -49,6 +51,24 @@ public class CatalogFacade {
             throw new BadSupplyModificationException("Bad request when updating stock for supply with ID " + supplyId, e);
         } catch (WebClientResponseException.InternalServerError e) {
             throw new InternalErrorException("An exception occurred fetching supply with ID " + supplyId, e);
+        }
+    }
+
+    public Map<Integer, SupplyDto> getSuppliesInBatch(List<Integer> suppliesIds) {
+        try {
+            return webClientBuilder.build()
+                    .post()
+                    .uri(catalogUrl + "/supplies/get-in-batch")
+                    .bodyValue(Map.of("suppliesIds", suppliesIds))
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Map<Integer, SupplyDto>>() {})
+                    .block();
+        } catch (WebClientResponseException.NotFound e) {
+            throw new SupplyNotFoundException("Supply not found", e);
+        } catch (WebClientResponseException.BadRequest e) {
+            throw new BadSupplyModificationException("Bad request when getting supplies in batch ", e);
+        } catch (WebClientResponseException.InternalServerError e) {
+            throw new InternalErrorException("An exception occurred fetching supplies in batch ", e);
         }
     }
 
