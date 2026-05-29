@@ -10,6 +10,7 @@ import lombok.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
+        "id",
         "name",
         "status",
         "quantity",
@@ -25,6 +26,8 @@ public class PurchasedItem implements Serializable {
     @Serial
     private final static long serialVersionUID = -4761762119375139021L;
 
+    @JsonProperty("id")
+    public Integer id;
     @JsonProperty("name")
     public String name;
     @JsonProperty("status")

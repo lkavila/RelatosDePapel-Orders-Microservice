@@ -83,7 +83,7 @@ public class CreateOrdersService {
             throw new SupplyNotFoundException("Producto no encontrado con ID: " + requestedSupply.getId());
         }
         if (supply.getStock() == null || supply.getStock() < requestedSupply.getQuantity()) {
-            throw new IllegalArgumentException("Stock insuficiente para el producto: " + supply.getName() +
+            throw new IllegalArgumentException("Stock insuficiente para el producto: " + supply.getTitle() +
                     ". Stock disponible: " + supply.getStock() + ", solicitado: " + requestedSupply.getQuantity());
         }
         BigDecimal unitPrice = supply.getPrice() != null ? supply.getPrice() : BigDecimal.ZERO;

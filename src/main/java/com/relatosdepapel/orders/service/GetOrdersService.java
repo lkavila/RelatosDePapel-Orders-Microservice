@@ -16,7 +16,11 @@ import com.relatosdepapel.orders.repository.model.OrderItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import com.relatosdepapel.orders.repository.OrderRepository;
 import java.math.BigDecimal;
@@ -36,12 +40,12 @@ public class GetOrdersService {
     @Transactional(readOnly = true)
     public GetOrdersResponseDto getRecentOrders() {
         List<Order> recentOrders = orderJpaRepository.findAll().stream().toList();
+        Map<Integer, SupplyDto> suppliesMap = getSuppliesInBatch(recentOrders);
+        List<RecentOrder> mappedOrders = buildRecentOrders(recentOrders, suppliesMap);
         return GetOrdersResponseDto.builder()
-                .recentOrders(recentOrders.stream().map(this::getRecentOrder).toList())
+                .recentOrders(mappedOrders)
                 .build();
     }
-
-
 
     public GetOrdersResponseDto getOrders(
             Integer ownerId,
@@ -59,17 +63,12 @@ public class GetOrdersService {
                 page
         );
 
-        List<RecentOrder> recentOrders = orders.stream()
-                .map(this::getRecentOrder)
-                .toList();
+        List<RecentOrder> recentOrders = buildRecentOrders(orders, getSuppliesInBatch(orders));
 
         return GetOrdersResponseDto.builder()
                 .recentOrders(recentOrders)
                 .build();
-
     }
-
-
 
     @Transactional(readOnly = true)
     public GetOrdersOwnerResponseDto getOrderByOwnerId(Integer ownerId,Integer page, Integer pageSize) {
@@ -110,10 +109,60 @@ public class GetOrdersService {
     private PurchasedItem getSupplyData(OrderItem orderItem) {
         SupplyDto supply = catalogFacade.getSupply(orderItem.getIdCatalog());
         return PurchasedItem.builder()
-                .name(supply.getName())
+                .id(supply.getId())
+                .name(supply.getTitle())
                 .status(orderItem.getStatus().name())
                 .price(supply.getPrice().doubleValue())
                 .quantity(orderItem.getQuantity())
                 .build();
+    }
+
+    private Map<Integer, SupplyDto> getSuppliesInBatch(List<Order> orders) {
+        List<Integer> suppliesIds = orders.stream()
+                .map(Order::getOrderItems).map(
+                        items -> items.stream().map(OrderItem::getIdCatalog).toList()
+                ).flatMap(List::stream).toList();
+
+        int maxBatch = 2500;
+        if (suppliesIds.size() <= maxBatch) {
+            return catalogFacade.getSuppliesInBatch(suppliesIds);
+        }
+        Map<Integer, SupplyDto> allResults = new HashMap<>();
+        int totalIds = suppliesIds.size();
+
+        for (int i = 0; i < totalIds; i += maxBatch) {
+            int end = Math.min(i + maxBatch, totalIds);
+            List<Integer> currentList = suppliesIds.subList(i, end);
+            Map<Integer, SupplyDto> batch = catalogFacade.getSuppliesInBatch(currentList);
+            allResults.putAll(batch);
+        }
+        return allResults;
+    }
+
+    private List<RecentOrder> buildRecentOrders(List<Order> recentOrders, Map<Integer, SupplyDto> supplies) {
+        return recentOrders.stream()
+                .map(order -> {
+                    List<PurchasedItem> purchasedItems = order.getOrderItems().stream()
+                            .map(orderItem -> {
+                                SupplyDto supply = supplies.get(orderItem.getIdCatalog());
+                                return PurchasedItem.builder()
+                                        .id(supply.getId())
+                                        .name(supply.getTitle())
+                                        .status(orderItem.getStatus().name())
+                                        .price(supply.getPrice().doubleValue())
+                                        .quantity(orderItem.getQuantity())
+                                        .build();
+                            })
+                            .toList();
+                    return RecentOrder.builder()
+                            .id(order.getId())
+                            .total(order.getTotal().doubleValue())
+                            .date(order.getOrderDate().toLocalDate().toString())
+                            .comment(order.getComment())
+                            .items(purchasedItems)
+                            .build();
+                })
+                .toList();
+
     }
 }

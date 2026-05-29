@@ -11,8 +11,8 @@ public class SupplyDto {
     @JsonProperty("id")
     private Integer id;
 
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("title")
+    private String title;
 
     @JsonProperty("description")
     private String description;
