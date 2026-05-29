@@ -6,6 +6,7 @@ import com.relatosdepapel.orders.controller.model.PurchasedItem;
 import com.relatosdepapel.orders.controller.model.RecentOrder;
 import com.relatosdepapel.orders.exception.BadSupplyModificationException;
 import com.relatosdepapel.orders.exception.InternalErrorException;
+import com.relatosdepapel.orders.exception.OrderNotFoundException;
 import com.relatosdepapel.orders.facade.CatalogFacade;
 import com.relatosdepapel.orders.facade.model.SupplyDto;
 import com.relatosdepapel.orders.controller.model.OrderDetailsDto;
@@ -76,7 +77,7 @@ public class GetOrdersService {
         List<Order> recentOrders = orderRepository.findByOwnerIdWithPagination(ownerId,page,pageSize);
 
         if (recentOrders.isEmpty()) {
-            throw new BadSupplyModificationException("No orders found for ownerId: " + ownerId);
+            throw new OrderNotFoundException("No orders found for ownerId: " + ownerId);
         }
         List<OrderDetailsDto> orderDetailsList = recentOrders.stream()
                 .map(o -> OrderDetailsDto.builder()
