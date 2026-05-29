@@ -46,13 +46,17 @@ public class GetOrdersService {
     public GetOrdersResponseDto getOrders(
             Integer ownerId,
             LocalDateTime orderDate,
-            BigDecimal minTotal
+            BigDecimal minTotal,
+            Integer pageSize,
+            Integer page
     ) {
 
         List<Order> orders = orderRepository.getOrders(
                 ownerId,
                 orderDate,
-                minTotal
+                minTotal,
+                pageSize,
+                page
         );
 
         List<RecentOrder> recentOrders = orders.stream()

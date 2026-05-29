@@ -35,14 +35,19 @@ public class OrdersController {
             LocalDateTime orderDate,
 
             @RequestParam(required = false)
-            BigDecimal minTotal
+            BigDecimal minTotal,
+            @RequestParam(required = false,defaultValue = "5") Integer pageSize,
+            @RequestParam(required = false,defaultValue = "0") Integer page
+
     ) {
 
         return ResponseEntity.ok(
                 getOrdersService.getOrders(
                         ownerId,
                         orderDate,
-                        minTotal
+                        minTotal,
+                        pageSize,
+                        page
                 )
         );
     }

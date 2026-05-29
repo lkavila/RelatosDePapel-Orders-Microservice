@@ -25,7 +25,9 @@ public class OrderRepository {
     public List<Order> getOrders(
             Integer ownerId,
             LocalDateTime orderDate,
-            BigDecimal minTotal
+            BigDecimal minTotal,
+            Integer pageSize,
+            Integer page
     ) {
 
         SearchCriteria<Order> spec = new SearchCriteria<>();
@@ -60,6 +62,6 @@ public class OrderRepository {
             );
         }
 
-        return orderJpaRepository.findAll(spec);
+        return orderJpaRepository.findAll(spec, Pageable.ofSize(pageSize).withPage(page)).getContent();
     }
 }
