@@ -7,6 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderJpaRepository extends JpaRepository<Order, Integer>,
@@ -18,6 +19,8 @@ public interface OrderJpaRepository extends JpaRepository<Order, Integer>,
     List<Order> findByOwnerIdOrderByOrderDateDesc(Integer ownerId);
 
     List<Order> findByOwnerId(Integer ownerId);
+
+    Optional<Order> findById(Integer Id);
 
     class OrderRepository {
     }

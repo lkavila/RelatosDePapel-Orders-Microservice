@@ -6,10 +6,10 @@ spring:
 
   ## Database Configuration
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3309/orders}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/orders}
     driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
-    username: ${SPRING_DATASOURCE_USERNAME:orders_user}
-    password: ${SPRING_DATASOURCE_PASSWORD:orders_pass}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:mysql}
   jpa:
     show-sql: true
     hibernate:

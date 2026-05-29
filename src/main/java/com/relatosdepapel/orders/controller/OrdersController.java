@@ -28,6 +28,9 @@ public class OrdersController {
     public ResponseEntity<GetOrdersResponseDto> getOrders(
 
             @RequestParam(required = false)
+            Integer Id,
+
+            @RequestParam(required = false)
             Integer ownerId,
 
             @RequestParam(required = false)
@@ -61,9 +64,9 @@ public class OrdersController {
                                                                 @RequestParam(required = false,defaultValue = "0") Integer page) {
         return ResponseEntity.ok(getOrdersService.getOrderByOwnerId(ownerId.intValue(),page,pageSize));
     }
-    @DeleteMapping("orders/user/{ownerId}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long ownerId) {
-        deleteOrdersService.deleteOrderByOwnerId(ownerId);
+    @DeleteMapping("orders/id/{Id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long Id) {
+        deleteOrdersService.deleteOrderById(Id);
         return ResponseEntity.noContent().build();
     }
     @PatchMapping("orders/{id}")
