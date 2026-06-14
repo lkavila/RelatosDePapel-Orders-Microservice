@@ -4,6 +4,14 @@ spring:
   application:
     name: orders
 
+    ## RabbitMQ Configuration
+    rabbitmq:
+      host: ${RABBITMQ_HOST:localhost}
+      port: ${RABBITMQ_PORT:5672}
+      username: ${RABBITMQ_USER:admin}
+      password: ${RABBITMQ_PASSWORD:Admin123*}
+      virtual-host: ${RABBITMQ_VHOST:/}
+
   ## Database Configuration
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3307/orders}
@@ -38,3 +46,12 @@ eureka:
 ## Microservices Configuration
 catalog:
   url: ${CATALOG_URL:http://catalog/api/v1}
+
+  ## RabbitMQ Event Configuration
+  rabbitmq:
+    exchange:
+      orders: pedidos.creados
+    routing:
+      key:
+        order:
+          created: pedido.creado.key

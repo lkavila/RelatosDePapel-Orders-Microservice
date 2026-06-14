@@ -3,6 +3,7 @@ package com.relatosdepapel.orders.service;
 import com.relatosdepapel.orders.controller.model.CreateOrderRequestDto;
 import com.relatosdepapel.orders.controller.model.CreateOrderResponseDto;
 import com.relatosdepapel.orders.controller.model.RequestedSupply;
+import com.relatosdepapel.orders.event.service.OrderEventService;
 import com.relatosdepapel.orders.facade.CatalogFacade;
 import com.relatosdepapel.orders.facade.model.SupplyDto;
 import com.relatosdepapel.orders.exception.SupplyNotFoundException;
@@ -25,6 +26,8 @@ public class CreateOrdersService {
 
     private final CatalogFacade catalogFacade;
     private final OrderJpaRepository orderJpaRepository;
+    private final OrderEventService orderEventService;
+
 
     @Transactional
     public CreateOrderResponseDto createOrder(CreateOrderRequestDto request) {
@@ -64,6 +67,8 @@ public class CreateOrdersService {
         for (Map.Entry<SupplyDto, OrderItem> entry : supplyOrderItemMap.entrySet()) {
             updateSupplyStock(entry.getKey().getStock(), entry.getValue());
         }
+        // Enviar evento de pedido creado a RabbitMQ
+        orderEventService.publishOrderCreatedEvent(savedOrder);
 
         // Crear la respuesta
         return CreateOrderResponseDto.builder()
