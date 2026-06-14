@@ -23,10 +23,11 @@ public class OrderEventService {
 
     private final RabbitTemplate rabbitTemplate;
 
-    @org.springframework.beans.factory.annotation.Value("${rabbitmq.exchange.orders}")
+
+    @Value("${rabbitmq.exchange.orders:pedidos.creados}")
     private String ordersExchange;
 
-    @Value("${rabbitmq.routing.key.order.created}")
+    @Value("${rabbitmq.routing.key.order.created:pedido.creado.key}")
     private String orderCreatedRoutingKey;
 
     public void publishOrderCreatedEvent(Order order) {
