@@ -4,13 +4,13 @@ spring:
   application:
     name: orders
 
-    ## RabbitMQ Configuration
-    rabbitmq:
-      host: ${RABBITMQ_HOST:localhost}
-      port: ${RABBITMQ_PORT:5672}
-      username: ${RABBITMQ_USER:admin}
-      password: ${RABBITMQ_PASSWORD:Admin123*}
-      virtual-host: ${RABBITMQ_VHOST:/}
+  ## RabbitMQ Configuration
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:admin}
+    password: ${RABBITMQ_PASSWORD:Admin123*}
+    virtual-host: ${RABBITMQ_VHOST:/}
 
   ## Database Configuration
   datasource:
@@ -55,3 +55,6 @@ catalog:
       key:
         order:
           created: pedido.creado.key
+
+jwt:
+  secret: ${JWT_SECRET:mysecretkeyasdas324235dsfe-ds[ds[*dsf34-2okjfd89g}
