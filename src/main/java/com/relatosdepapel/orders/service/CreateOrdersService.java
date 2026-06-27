@@ -1,5 +1,6 @@
 package com.relatosdepapel.orders.service;
 
+import com.relatosdepapel.orders.config.CustomUserDetails;
 import com.relatosdepapel.orders.controller.model.CreateOrderRequestDto;
 import com.relatosdepapel.orders.controller.model.CreateOrderResponseDto;
 import com.relatosdepapel.orders.controller.model.RequestedSupply;
@@ -30,7 +31,7 @@ public class CreateOrdersService {
 
 
     @Transactional
-    public CreateOrderResponseDto createOrder(CreateOrderRequestDto request) {
+    public CreateOrderResponseDto createOrder(CreateOrderRequestDto request, CustomUserDetails userWhoMakeRequest) {
 
         // Validar que la solicitud no esté vacía
         if (request.getSupplies() == null || request.getSupplies().isEmpty()) {
@@ -55,8 +56,9 @@ public class CreateOrdersService {
         String orderName = generateOrderName();
         Order order = Order.builder()
                 .orderDate(LocalDateTime.now())
+                .name(orderName)
                 .total(totalAmount)
-                .ownerId(1) // Se debe obtener del contexto de seguridad
+                .ownerId(userWhoMakeRequest.getUserId())
                 .orderItems(supplyOrderItemMap.values().stream().toList())
                 .updatedAt(LocalDateTime.now())
                 .build();
@@ -68,7 +70,7 @@ public class CreateOrdersService {
             updateSupplyStock(entry.getKey().getStock(), entry.getValue());
         }
         // Enviar evento de pedido creado a RabbitMQ
-        orderEventService.publishOrderCreatedEvent(savedOrder);
+        orderEventService.publishOrderCreatedEvent(savedOrder, userWhoMakeRequest.getEmail());
 
         // Crear la respuesta
         return CreateOrderResponseDto.builder()

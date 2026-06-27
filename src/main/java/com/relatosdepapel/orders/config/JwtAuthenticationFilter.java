@@ -34,12 +34,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String username = jwtUtils.getCifFromToken(token);
             String role = jwtUtils.getRoleFromToken(token);
             Integer userId = jwtUtils.getUserIdFromToken(token);
+            String email = jwtUtils.getEmailFromToken(token);
 
             // Crear principal que incluya userId
             CustomUserDetails principal = new CustomUserDetails(
                     userId,
                     username,
                     null, // password no necesario aquí
+                    email,
                     List.of(new SimpleGrantedAuthority("ROLE_" + role))
             );
 

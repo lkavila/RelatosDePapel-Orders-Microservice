@@ -30,9 +30,9 @@ public class OrderEventService {
     @Value("${rabbitmq.routing.key.order.created:pedido.creado.key}")
     private String orderCreatedRoutingKey;
 
-    public void publishOrderCreatedEvent(Order order) {
+    public void publishOrderCreatedEvent(Order order, String email) {
         try {
-            OrderCreatedEvent event = buildOrderCreatedEvent(order);
+            OrderCreatedEvent event = buildOrderCreatedEvent(order, email);
             rabbitTemplate.convertAndSend(ordersExchange, orderCreatedRoutingKey, event);
             log.info("Evento de pedido creado publicado exitosamente. Order: {}, EventId: {}",
                     order.getId(), event.getHeader().getEventId());
@@ -42,7 +42,7 @@ public class OrderEventService {
         }
     }
 
-    private OrderCreatedEvent buildOrderCreatedEvent(Order order) {
+    private OrderCreatedEvent buildOrderCreatedEvent(Order order, String email) {
         String eventId = UUID.randomUUID().toString();
 
         EventHeader header = EventHeader.builder()
@@ -62,6 +62,7 @@ public class OrderEventService {
                 .total(order.getTotal())
                 .comment(order.getComment())
                 .ownerId(order.getOwnerId())
+                .email(email)
                 .orderItems(orderItemEvents)
                 .build();
 

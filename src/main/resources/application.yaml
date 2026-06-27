@@ -53,14 +53,14 @@ eureka:
 catalog:
   url: ${CATALOG_URL:http://catalog/api/v1}
 
-  ## RabbitMQ Event Configuration
-  rabbitmq:
-    exchange:
-      orders: pedidos.creados
-    routing:
-      key:
-        order:
-          created: pedido.creado.key
+
+rabbitmq:
+  exchange:
+    orders: pedidos.creados
+  routing:
+    key:
+      order:
+        created: pedido.creado.key
 
 jwt:
   secret: ${JWT_SECRET:mysecretkeyasdas324235dsfe-ds[ds[*dsf34-2okjfd89g}

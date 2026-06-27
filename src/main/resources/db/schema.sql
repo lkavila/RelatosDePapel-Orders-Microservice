@@ -9,6 +9,7 @@ USE orders;
 -- Tabla principal de órdenes
 CREATE TABLE orders (
                         id INTEGER NOT NULL AUTO_INCREMENT,
+                        name VARCHAR(255) NOT NULL,
                         order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         total DECIMAL(10,2) NOT NULL,
                         comment TEXT,

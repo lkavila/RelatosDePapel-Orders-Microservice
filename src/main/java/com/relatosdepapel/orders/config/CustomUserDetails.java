@@ -14,14 +14,16 @@ public class CustomUserDetails implements UserDetails {
     private final Integer userId;
     private final String username;
     private final String password;
+    private final String email;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(Integer userId, String username, String password,
+    public CustomUserDetails(Integer userId, String username, String password, String email,
                              Collection<? extends GrantedAuthority> authorities) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
+        this.email = email;
     }
 
     @Override public Collection<? extends GrantedAuthority> getAuthorities() { return authorities; }
