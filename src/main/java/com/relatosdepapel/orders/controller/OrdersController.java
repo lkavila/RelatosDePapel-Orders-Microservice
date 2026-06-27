@@ -1,5 +1,6 @@
 package com.relatosdepapel.orders.controller;
 
+import com.relatosdepapel.orders.config.CustomUserDetails;
 import com.relatosdepapel.orders.controller.model.*;
 import com.relatosdepapel.orders.service.CreateOrdersService;
 import com.relatosdepapel.orders.service.GetOrdersService;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.math.BigDecimal;
@@ -24,23 +26,14 @@ public class OrdersController {
     private final DeleteOrdersService deleteOrdersService;
     private final PatchOrderItem patchOrderItem;
 
-
     @GetMapping
     public ResponseEntity<GetOrdersResponseDto> getOrders(
-
-            @RequestParam(required = false)
-            Integer Id,
-
-            @RequestParam(required = false)
-            Integer ownerId,
-
-            @RequestParam(required = false)
-            LocalDateTime orderDate,
-
-            @RequestParam(required = false)
-            BigDecimal minTotal,
-            @RequestParam(required = false,defaultValue = "5") Integer pageSize,
-            @RequestParam(required = false,defaultValue = "0") Integer page
+            @RequestParam(required = false) Integer Id,
+            @RequestParam(required = false) Integer ownerId,
+            @RequestParam(required = false) LocalDateTime orderDate,
+            @RequestParam(required = false) BigDecimal minTotal,
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "0") Integer page
 
     ) {
 
@@ -56,13 +49,17 @@ public class OrdersController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateOrderResponseDto> createOrder(@RequestBody CreateOrderRequestDto request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(createOrdersService.createOrder(request));
+    public ResponseEntity<CreateOrderResponseDto> createOrder(
+            @RequestBody CreateOrderRequestDto request,
+            @AuthenticationPrincipal CustomUserDetails userWhoMakeRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(createOrdersService.createOrder(request, userWhoMakeRequest));
     }
+
     @GetMapping("user/{ownerId}")
-    public ResponseEntity<GetOrdersOwnerResponseDto> getOwnerId(@PathVariable Long ownerId,
-                                                                @RequestParam(required = false,defaultValue = "5") Integer pageSize,
-                                                                @RequestParam(required = false,defaultValue = "0") Integer page) {
+    public ResponseEntity<GetOrdersOwnerResponseDto> getOwnerId(
+            @PathVariable Long ownerId,
+            @RequestParam(required = false,defaultValue = "5") Integer pageSize,
+            @RequestParam(required = false,defaultValue = "0") Integer page) {
         return ResponseEntity.ok(getOrdersService.getOrderByOwnerId(ownerId.intValue(),page,pageSize));
     }
 
@@ -72,6 +69,7 @@ public class OrdersController {
         deleteOrdersService.deleteOrderById(id);
         return ResponseEntity.noContent().build();
     }
+
     @PatchMapping("{id}")
     public ResponseEntity<Boolean> patchOrder(@PathVariable Integer id, @RequestBody UpdateOrderDto orderDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(patchOrderItem.updateOrderItemStatus(id, orderDto.getStatus()));

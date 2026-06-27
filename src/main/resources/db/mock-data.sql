@@ -1,16 +1,16 @@
 USE orders;
 
-INSERT INTO orders (id, order_date, total, comment, owner_id, updated_at) VALUES
-(1, '2026-05-01 09:00:00', 32.00, 'Pedido de material de oficina', 1,  '2026-05-01 09:00:00'),
-(2, '2026-05-01 10:15:00', 24.00, 'Reposición para recepción', 2, '2026-05-01 10:15:00'),
-(3, '2026-05-01 11:30:00', 34.25, 'Compra para almacén central', 3, '2026-05-01 11:30:00'),
-(4, '2026-05-02 08:45:00', 29.50, 'Suministros para sucursal norte', 4, '2026-05-02 08:45:00'),
-(5, '2026-05-02 12:00:00', 45.00, 'Pedido especial de papelería', 5, '2026-05-02 12:00:00'),
-(6, '2026-05-03 09:20:00', 22.40, 'Material para atención al cliente', 5, '2026-05-03 09:20:00'),
-(7, '2026-05-03 14:10:00', 32.00, 'Reabastecimiento de inventario', 5, '2026-05-03 14:10:00'),
-(8, '2026-05-04 08:30:00', 42.80, 'Pedido de útiles escolares', 2, '2026-05-04 08:30:00'),
-(9, '2026-05-04 16:45:00', 30.00, 'Compra para campaña editorial', 2, '2026-05-04 16:45:00'),
-(10, '2026-05-05 10:05:00', 58.00, 'Pedido mixto para oficina principal', 1, '2026-05-05 10:05:00');
+INSERT INTO orders (id, name, order_date, total, comment, owner_id, updated_at) VALUES
+(1, 'order test 1', '2026-05-01 09:00:00', 32.00, 'Pedido de material de oficina', 1,  '2026-05-01 09:00:00'),
+(2, 'order test 2', '2026-05-01 10:15:00', 24.00, 'Reposición para recepción', 2, '2026-05-01 10:15:00'),
+(3, 'order test 3', '2026-05-01 11:30:00', 34.25, 'Compra para almacén central', 3, '2026-05-01 11:30:00'),
+(4, 'order test 4', '2026-05-02 08:45:00', 29.50, 'Suministros para sucursal norte', 4, '2026-05-02 08:45:00'),
+(5, 'order test 5', '2026-05-02 12:00:00', 45.00, 'Pedido especial de papelería', 5, '2026-05-02 12:00:00'),
+(6, 'order test 6', '2026-05-03 09:20:00', 22.40, 'Material para atención al cliente', 5, '2026-05-03 09:20:00'),
+(7, 'order test 7', '2026-05-03 14:10:00', 32.00, 'Reabastecimiento de inventario', 5, '2026-05-03 14:10:00'),
+(8, 'order test 8', '2026-05-04 08:30:00', 42.80, 'Pedido de útiles escolares', 2, '2026-05-04 08:30:00'),
+(9, 'order test 9', '2026-05-04 16:45:00', 30.00, 'Compra para campaña editorial', 2, '2026-05-04 16:45:00'),
+(10, 'order test 10', '2026-05-05 10:05:00', 58.00, 'Pedido mixto para oficina principal', 1, '2026-05-05 10:05:00');
 
 INSERT INTO order_item (order_id, id_catalog, status, quantity, sub_total) VALUES
 (1, 1, 'EN_PROCESO', 2, 25.00),

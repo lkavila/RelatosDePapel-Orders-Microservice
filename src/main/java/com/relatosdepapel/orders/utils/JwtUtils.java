@@ -80,6 +80,20 @@ public class JwtUtils {
         }
     }
 
+    public String getEmailFromToken(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+
+            return String.valueOf(claims.get("email", String.class));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public Integer getUserIdFromToken(String token) {
         Claims claims = Jwts.parser()
                 .verifyWith(key)

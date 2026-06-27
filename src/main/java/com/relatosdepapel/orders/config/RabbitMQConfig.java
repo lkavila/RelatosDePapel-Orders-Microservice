@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("pedidos.creados")
+    @Value("${rabbitmq.exchange.orders:pedidos.creados}")
     private String ordersExchange;
 
     @Bean

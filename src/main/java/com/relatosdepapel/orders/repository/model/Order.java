@@ -28,6 +28,9 @@ public class Order {
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
 
@@ -42,7 +45,6 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<OrderItem> orderItems;
-
 
     @Column(name="updated_at", nullable = false)
     @LastModifiedDate
