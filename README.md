@@ -278,12 +278,12 @@ EN_PROCESO, CANCELADO, ENTREGADO
 
 ## Reconstrucción de la base de datos para pruebas
 
-El script SQL se encuentra en `src/main/resources/db/schema.sql`.
+El script SQL se encuentra en `src/main/resources/db/1-1-1-schema.sql`.
 
 ### Paso 1: Crear el esquema y las tablas
 
 ```bash
-mysql -u root -p < src/main/resources/db/schema.sql
+mysql -u root -p < src/main/resources/db/1-1-1-schema.sql
 ```
 
 Este script:
@@ -295,7 +295,7 @@ Este script:
 
 ```bash
 mysql -u root -p -e "DROP SCHEMA IF EXISTS orders;" && \
-mysql -u root -p < src/main/resources/db/schema.sql
+mysql -u root -p < src/main/resources/db/1-1-1-schema.sql
 ```
 ---
 

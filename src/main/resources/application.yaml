@@ -2,7 +2,7 @@ server:
   port: ${PORT:8081}
 spring:
   application:
-    name: orders
+    name: ${RAILWAY_PRIVATE_DOMAIN:orders}
 
   ## RabbitMQ Configuration
   rabbitmq:
@@ -22,8 +22,8 @@ spring:
     init:
       mode: always
       continue-on-error: true
-      schema-locations: classpath:db/schema.sql
-      data-locations: classpath:db/mock-data.sql
+      schema-locations: classpath:db/1-schema.sql
+      data-locations: classpath:db/2-mock-data.sql
   jpa:
     show-sql: true
     hibernate:
